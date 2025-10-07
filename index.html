@@ -1,10 +1,36 @@
 <!DOCTYPE html>
 <html manifest="./PSFree.manifest">
   <head>
-    <script>
+    
+	<script>
+		function DLProgress(e) {
+			Percent = Math.round(e.loaded / e.total * 100);
+			document.title = "Installing offline cache: " + Percent + "%";
+			document.getElementById("cache-status").textContent = "Installing offline cache: " + Percent + "%";
+		}
+
+		function DisplayCacheProgress() {
+			setTimeout(function() {
+			document.title = "Cache Success !";
+			document.getElementById("cache-status").textContent = "Cache Success !";
+			document.getElementById("cache-status").style.color = "#00ff00";
+			}, 1000);
+			setTimeout(function() {
+			window.location.reload();
+			}, 3000);
+		}
+
+		window.applicationCache.addEventListener("progress", DLProgress, false);
+		window.applicationCache.oncached = function(e) { DisplayCacheProgress(); };
+		window.applicationCache.onupdateready = function(e) { DisplayCacheProgress(); };
+	</script>
+
+	<!--
+	<script>
         function DLProgress(e){Percent=(Math.round(e.loaded / e.total * 100));document.title="Installing offline cache: " + Percent + "%";}
         function DisplayCacheProgress(){setTimeout(function(){;document.title="Cache Success !";},1000);setTimeout(function(){window.location.reload();},3000);}window.applicationCache.addEventListener("progress",DLProgress,false);window.applicationCache.oncached=function(e){DisplayCacheProgress();};window.applicationCache.onupdateready=function(e){DisplayCacheProgress();};
     </script>
+	-->
     <meta charset="UTF-8">
     <title>PSFree By Ali Madhi</title>
     <link rel='stylesheet' href='./css/index.css'>
@@ -26,6 +52,7 @@
     <pre id="update-results" style="white-space: pre-wrap; margin-top: 10px;"></pre>
 
     <h2 id="PS4FW">PS4 FW: 0.00 | Compatible</h2>
+	<h2 id="cache-status"> </h2>
 
     <div id="jailbreak-page">
       <div class="center-btn-wrap">
